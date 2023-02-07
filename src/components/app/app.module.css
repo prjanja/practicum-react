@@ -1,0 +1,12 @@
+.app {
+  text-align: center;
+}
+
+.content {
+  display: flex;
+  gap: 48px;
+}
+
+.content > * {
+  flex: 1;
+}

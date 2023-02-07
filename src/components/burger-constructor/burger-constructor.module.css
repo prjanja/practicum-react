@@ -1,0 +1,50 @@
+.constructor_wrapper {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 120px);
+  text-align: left;
+}
+
+.ingredients_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  overflow: hidden;
+  gap: 16px;
+}
+
+.editableItems_wrapper {
+  overflow: auto;
+  min-height: 100px;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.editableItems_wrapper::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.editableItems_wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.drag_icon {
+  width: 40px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+}
+
+.locked_row {
+  flex: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
