@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import {
   Counter,
@@ -8,6 +8,8 @@ import {
 import classNames from "classnames";
 import styles from "./burger-ingredients.module.css";
 import { igredientPropTypes } from "../../utils/types";
+import { IngredientDetails } from "../ingredient-details";
+import { Modal } from "../modal";
 
 const tabs = [
   { label: "Булки", value: "bun" },
@@ -17,6 +19,7 @@ const tabs = [
 
 export const BurgerIngredients = ({ ingredientsList = [] }) => {
   const [currentTab, setCurrentTab] = useState("bun");
+  const [currentIngredient, setCurrentIngredient] = useState(null);
   const groupsRef = useRef({});
 
   useEffect(() => {
@@ -40,6 +43,8 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
       ingredientsArray,
     }));
   }, [ingredientsList]);
+
+  const handleCloseModal = useCallback(() => setCurrentIngredient(null), []);
 
   return (
     <section className={styles.ingredients_wrapper}>
@@ -73,6 +78,7 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
                   <div
                     key={ingredient._id}
                     className={classNames(styles.ingredient, "mb-8")}
+                    onClick={() => setCurrentIngredient(ingredient)}
                   >
                     <div className="mr-4 ml-4">
                       <img
@@ -83,7 +89,7 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
                     <div
                       className={classNames(
                         styles.ingredient_price,
-                        "text text_type_main-default",
+                        "text text_type_digits-default",
                         "mt-1 mb-1"
                       )}
                     >
@@ -100,6 +106,13 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
           </div>
         ))}
       </div>
+      <Modal
+        open={Boolean(currentIngredient)}
+        onClose={handleCloseModal}
+        title={"Детали ингредиента"}
+      >
+        <IngredientDetails ingredient={currentIngredient} />
+      </Modal>
     </section>
   );
 };

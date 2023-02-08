@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   CurrencyIcon,
   DragIcon,
@@ -9,8 +9,11 @@ import {
 import classNames from "classnames";
 import styles from "./burger-constructor.module.css";
 import { igredientPropTypes } from "../../utils/types";
+import { Modal } from "../modal";
+import { OrderDetails } from "../order-details";
 
 export const BurgerConstructor = ({ ingredientsList = [] }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const bun = useMemo(() => {
     return ingredientsList.find((i) => i.type === "bun");
   }, [ingredientsList]);
@@ -22,6 +25,8 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
   const totalSum = useMemo(() => {
     return ingredientsList.reduce((acc, cur) => acc + cur.price, 0);
   }, [ingredientsList]);
+
+  const handleCloseModal = useCallback(() => setIsModalOpen((v) => false), []);
 
   return (
     <section className={classNames(styles.constructor_wrapper, "pr-4 pl-4")}>
@@ -61,14 +66,22 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
           />
         )}
       </div>
-      <div className={classNames(styles.footer, "mb-10")}>
-        <span className="text text_type_main-medium">
+      <div className={classNames(styles.footer, "mb-10 mr-4 ml-4")}>
+        <span className="text text_type_digits-medium">
           {totalSum} <CurrencyIcon />
         </span>
-        <Button htmlType="button" size="large" extraClass="ml-10">
+        <Button
+          htmlType="button"
+          size="large"
+          extraClass="ml-10"
+          onClick={() => setIsModalOpen(true)}
+        >
           Оформить заказ
         </Button>
       </div>
+      <Modal open={isModalOpen} onClose={handleCloseModal}>
+        <OrderDetails order={{ id: "034536" }} />
+      </Modal>
     </section>
   );
 };
