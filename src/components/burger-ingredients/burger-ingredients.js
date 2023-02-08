@@ -7,6 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import styles from "./burger-ingredients.module.css";
+import { igredientPropTypes } from "../../utils/types";
 
 const tabs = [
   { label: "Булки", value: "bun" },
@@ -74,7 +75,10 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
                     className={classNames(styles.ingredient, "mb-8")}
                   >
                     <div className="mr-4 ml-4">
-                      <img alt="ingredient" src={ingredient.image} />
+                      <img
+                        alt={`ingredient ${ingredient.name}`}
+                        src={ingredient.image}
+                      />
                     </div>
                     <div
                       className={classNames(
@@ -101,19 +105,5 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
 };
 
 BurgerIngredients.propTypes = {
-  ingredientsList: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-    })
-  ),
+  ingredientsList: PropTypes.arrayOf(igredientPropTypes),
 };

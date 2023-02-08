@@ -8,6 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import styles from "./burger-constructor.module.css";
+import { igredientPropTypes } from "../../utils/types";
 
 export const BurgerConstructor = ({ ingredientsList = [] }) => {
   const bun = useMemo(() => {
@@ -36,8 +37,8 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
           />
         )}
         <div className={styles.editableItems_wrapper}>
-          {editableIngredients.map((ingredient) => (
-            <div className={styles.row}>
+          {editableIngredients.map((ingredient, idx) => (
+            <div key={`${ingredient.id} + ${idx}`} className={styles.row}>
               <div className={styles.drag_icon}>
                 <DragIcon />
               </div>
@@ -64,7 +65,7 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
         <span className="text text_type_main-medium">
           {totalSum} <CurrencyIcon />
         </span>
-        <Button size="large" extraClass="ml-10">
+        <Button htmlType="button" size="large" extraClass="ml-10">
           Оформить заказ
         </Button>
       </div>
@@ -73,19 +74,5 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredientsList: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      name: PropTypes.string,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      price: PropTypes.number,
-      image: PropTypes.string,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-    })
-  ),
+  ingredientsList: PropTypes.arrayOf(igredientPropTypes),
 };
