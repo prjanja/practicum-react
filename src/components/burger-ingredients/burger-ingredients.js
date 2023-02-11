@@ -106,13 +106,11 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
           </div>
         ))}
       </div>
-      <Modal
-        open={Boolean(currentIngredient)}
-        onClose={handleCloseModal}
-        title={"Детали ингредиента"}
-      >
-        <IngredientDetails ingredient={currentIngredient} />
-      </Modal>
+      {Boolean(currentIngredient) && (
+        <Modal onClose={handleCloseModal} title={"Детали ингредиента"}>
+          <IngredientDetails ingredient={currentIngredient} />
+        </Modal>
+      )}
     </section>
   );
 };

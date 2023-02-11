@@ -11,26 +11,22 @@ const modalRoot = document.getElementById("modals-root");
 
 export const Modal = ({
   title,
-  open = false,
   onClose = (f) => console.log("close"),
   children,
 }) => {
   useEffect(() => {
-    const keyboardListener = (e) => {
+    const handleEscape = (e) => {
       if (e.key === "Escape") {
         onClose();
       }
     };
 
-    document.addEventListener("keyup", keyboardListener);
+    document.addEventListener("keyup", handleEscape);
     return () => {
-      document.removeEventListener("keyup", keyboardListener);
+      document.removeEventListener("keyup", handleEscape);
     };
   }, [onClose]);
 
-  if (!open) {
-    return null;
-  }
   return ReactDOM.createPortal(
     <div className={styles.modal}>
       <ModalOverlay onClick={onClose} />
@@ -54,7 +50,6 @@ export const Modal = ({
 
 Modal.propTypes = {
   title: PropTypes.node,
-  open: PropTypes.bool,
   onClose: PropTypes.func,
   children: PropTypes.node,
 };

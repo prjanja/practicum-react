@@ -79,9 +79,11 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
           Оформить заказ
         </Button>
       </div>
-      <Modal open={isModalOpen} onClose={handleCloseModal}>
-        <OrderDetails order={{ id: "034536" }} />
-      </Modal>
+      {isModalOpen && (
+        <Modal onClose={handleCloseModal}>
+          <OrderDetails order={{ id: "034536" }} />
+        </Modal>
+      )}
     </section>
   );
 };

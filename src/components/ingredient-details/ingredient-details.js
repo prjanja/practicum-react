@@ -6,7 +6,10 @@ export const IngredientDetails = ({ ingredient }) => {
   return (
     <div className={classNames(styles.ingredient, "mb-8")}>
       <div className="mb-4">
-        <img alt={`ingredient ${ingredient.name}`} src={ingredient.image} />
+        <img
+          alt={`ingredient ${ingredient.name}`}
+          src={ingredient.image_large}
+        />
       </div>
       <div className={classNames("text text_type_main-default", "mb-8")}>
         {ingredient.name}

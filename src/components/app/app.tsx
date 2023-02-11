@@ -12,8 +12,19 @@ function App() {
 
   useEffect(() => {
     fetch(ingredientAPI)
-      .then((res) => res.json())
-      .then((res) => setInregientsList(res.data))
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
+      .then((res) => {
+        if (res.success) {
+          setInregientsList(res.data);
+        } else {
+          return Promise.reject(`Ошибка получения данных`);
+        }
+      })
       .catch((e) => {
         console.log(e?.message);
       });
