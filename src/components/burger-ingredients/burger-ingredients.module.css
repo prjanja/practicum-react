@@ -1,0 +1,43 @@
+.ingredients_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-height: calc(100vh - 120px);
+}
+
+.tabs {
+  display: flex;
+}
+
+.ingredients_group_wrapper {
+  overflow: auto;
+}
+
+.ingredients_group_wrapper::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.ingredients_group_wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ingredients_list {
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.ingredient {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 45%;
+  max-width: 45%;
+  cursor: pointer;
+}
+
+.ingredient_price {
+  display: flex;
+}

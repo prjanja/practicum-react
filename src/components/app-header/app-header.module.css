@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  composes: text from global;
+  composes: text_type_main-default from global;
+}
+
+.header > * {
+  flex: 1;
+  display: flex;
+}
+
+.header_left {
+}
+.header_right {
+  justify-content: right;
+}
+
+.header_item {
+  display: flex;
+  align-items: center;
+  composes: p-5 from global;
+  gap: 8px;
+}

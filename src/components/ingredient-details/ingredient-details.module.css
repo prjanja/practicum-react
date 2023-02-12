@@ -1,0 +1,10 @@
+.ingredient {
+  display: flex;
+  flex-direction: column;
+}
+
+.nutrients {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
