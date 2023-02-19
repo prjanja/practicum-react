@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import {
   CurrencyIcon,
   DragIcon,
@@ -8,11 +7,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import styles from "./burger-constructor.module.css";
-import { igredientPropTypes } from "../../utils/types";
 import { Modal } from "../modal";
 import { OrderDetails } from "../order-details";
+import { IngredientsContext } from "../../services/ingredientsContext";
+import { OrderContext } from "../../services/orderContext";
+import { orderAPI } from "../../utils/endpoints";
 
-export const BurgerConstructor = ({ ingredientsList = [] }) => {
+export const BurgerConstructor = () => {
+  const ingredientsList = useContext(IngredientsContext);
+  const [order, setOrder] = useContext(OrderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const bun = useMemo(() => {
     return ingredientsList.find((i) => i.type === "bun");
@@ -27,6 +30,36 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
   }, [ingredientsList]);
 
   const handleCloseModal = useCallback(() => setIsModalOpen((v) => false), []);
+
+  const handleCreateOrder = () => {
+    return fetch(orderAPI, {
+      method: "POST",
+      body: JSON.stringify({
+        ingredients: ingredientsList.map((igredient) => igredient._id),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
+      .then((res) => {
+        if (res.success) {
+          console.log(res.order);
+          setOrder(res.order);
+        } else {
+          return Promise.reject(`Ошибка получения данных`);
+        }
+      })
+      .then(() => setIsModalOpen(true))
+      .catch((e) => {
+        console.log(e?.message);
+      });
+  };
 
   return (
     <section className={classNames(styles.constructor_wrapper, "pr-4 pl-4")}>
@@ -74,20 +107,16 @@ export const BurgerConstructor = ({ ingredientsList = [] }) => {
           htmlType="button"
           size="large"
           extraClass="ml-10"
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleCreateOrder}
         >
           Оформить заказ
         </Button>
       </div>
       {isModalOpen && (
         <Modal onClose={handleCloseModal}>
-          <OrderDetails order={{ id: "034536" }} />
+          <OrderDetails order={order} />
         </Modal>
       )}
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  ingredientsList: PropTypes.arrayOf(igredientPropTypes),
 };

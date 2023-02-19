@@ -6,9 +6,12 @@ import { BurgerConstructor } from "../burger-constructor";
 import styles from "./app.module.css";
 
 import { ingredientAPI } from "../../utils/endpoints";
+import { IngredientsContext } from "../../services/ingredientsContext";
+import { OrderContext } from "../../services/orderContext";
 
 function App() {
   const [inregientsList, setInregientsList] = useState([]);
+  const orderState = useState(null);
 
   useEffect(() => {
     fetch(ingredientAPI)
@@ -34,8 +37,12 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <main className={classNames(styles.content, "pb-6")}>
-        <BurgerIngredients ingredientsList={inregientsList} />
-        <BurgerConstructor ingredientsList={inregientsList} />
+        <IngredientsContext.Provider value={inregientsList}>
+          <OrderContext.Provider value={orderState}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </OrderContext.Provider>
+        </IngredientsContext.Provider>
       </main>
     </div>
   );

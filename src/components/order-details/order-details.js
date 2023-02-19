@@ -7,7 +7,7 @@ export const OrderDetails = ({ order }) => {
   return (
     <div className={classNames(styles.order, "mb-15")}>
       <div className={classNames("text text_type_digits-large", "mb-8")}>
-        {order.id}
+        {order.number}
       </div>
       <div className={classNames("text text_type_main-medium", "mb-15")}>
         идентификатор заказа
@@ -27,6 +27,6 @@ export const OrderDetails = ({ order }) => {
 
 OrderDetails.propTypes = {
   order: PropTypes.shape({
-    id: PropTypes.string,
+    number: PropTypes.number,
   }),
 };

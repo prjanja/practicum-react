@@ -1,5 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import PropTypes from "prop-types";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -7,9 +13,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import styles from "./burger-ingredients.module.css";
-import { igredientPropTypes } from "../../utils/types";
 import { IngredientDetails } from "../ingredient-details";
 import { Modal } from "../modal";
+import { IngredientsContext } from "../../services/ingredientsContext";
 
 const tabs = [
   { label: "Булки", value: "bun" },
@@ -17,7 +23,8 @@ const tabs = [
   { label: "Начинки", value: "main" },
 ];
 
-export const BurgerIngredients = ({ ingredientsList = [] }) => {
+export const BurgerIngredients = () => {
+  const ingredientsList = useContext(IngredientsContext);
   const [currentTab, setCurrentTab] = useState("bun");
   const [currentIngredient, setCurrentIngredient] = useState(null);
   const groupsRef = useRef({});
@@ -113,8 +120,4 @@ export const BurgerIngredients = ({ ingredientsList = [] }) => {
       )}
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  ingredientsList: PropTypes.arrayOf(igredientPropTypes),
 };
