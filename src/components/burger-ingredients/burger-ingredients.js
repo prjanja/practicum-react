@@ -1,41 +1,51 @@
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import {
-  Counter,
-  CurrencyIcon,
-  Tab,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import styles from "./burger-ingredients.module.css";
 import { IngredientDetails } from "../ingredient-details";
 import { Modal } from "../modal";
-import { IngredientsContext } from "../../services/ingredientsContext";
+import { selectBurgerIngredients } from "../../services/selectors";
+import { Ingredient } from "./ingredient";
+import { IngredientTypes } from "../../utils/ingredient-types";
 
 const tabs = [
-  { label: "Булки", value: "bun" },
-  { label: "Соусы", value: "sauce" },
-  { label: "Начинки", value: "main" },
+  { label: "Булки", value: IngredientTypes.BUN },
+  { label: "Соусы", value: IngredientTypes.SAUCE },
+  { label: "Начинки", value: IngredientTypes.MAIN },
 ];
 
 export const BurgerIngredients = () => {
-  const ingredientsList = useContext(IngredientsContext);
-  const [currentTab, setCurrentTab] = useState("bun");
+  const ingredientsList = useSelector(selectBurgerIngredients);
+  const [currentTab, setCurrentTab] = useState(IngredientTypes.BUN);
   const [currentIngredient, setCurrentIngredient] = useState(null);
   const groupsRef = useRef({});
 
-  useEffect(() => {
-    if (groupsRef.current[currentTab]) {
-      groupsRef.current[currentTab].scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  }, [currentTab]);
+  const observer = useRef(
+    new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setCurrentTab(entry.target.dataset["groupType"]);
+            break;
+          }
+        }
+      },
+      {
+        threshold: 0.5,
+      }
+    )
+  );
+
+  const setRef = useCallback(
+    (type) => (node) => {
+      if (node && !groupsRef.current[type]) {
+        observer.current.observe(node);
+        groupsRef.current[type] = node;
+      }
+    },
+    []
+  );
 
   const ingredientsGroups = useMemo(() => {
     let groups = {};
@@ -45,9 +55,10 @@ export const BurgerIngredients = () => {
       }
       groups[ingredient.type].push(ingredient);
     }
-    return Object.entries(groups).map(([type, ingredientsArray]) => ({
-      type,
-      ingredientsArray,
+
+    return tabs.map((tab) => ({
+      type: tab.value,
+      ingredientsArray: groups[tab.value] || [],
     }));
   }, [ingredientsList]);
 
@@ -62,7 +73,11 @@ export const BurgerIngredients = () => {
             value={value}
             active={currentTab === value}
             key={value}
-            onClick={setCurrentTab}
+            onClick={() => {
+              groupsRef.current[value].scrollIntoView({
+                behavior: "smooth",
+              });
+            }}
           >
             {label}
           </Tab>
@@ -72,7 +87,9 @@ export const BurgerIngredients = () => {
         {ingredientsGroups.map((ingredientsGroups) => (
           <div
             key={ingredientsGroups.type}
-            ref={(el) => (groupsRef.current[ingredientsGroups.type] = el)}
+            ref={setRef(ingredientsGroups.type)}
+            // специально добавляем кастомный атрибут
+            data-group-type={ingredientsGroups.type}
           >
             <div
               className={classNames("text text_type_main-medium", "mt-6 mb-10")}
@@ -82,31 +99,11 @@ export const BurgerIngredients = () => {
             <div className={classNames(styles.ingredients_list, "pl-4 pr-4")}>
               {ingredientsGroups.ingredientsArray.map((ingredient) => {
                 return (
-                  <div
+                  <Ingredient
                     key={ingredient._id}
-                    className={classNames(styles.ingredient, "mb-8")}
+                    ingredient={ingredient}
                     onClick={() => setCurrentIngredient(ingredient)}
-                  >
-                    <div className="mr-4 ml-4">
-                      <img
-                        alt={`ingredient ${ingredient.name}`}
-                        src={ingredient.image}
-                      />
-                    </div>
-                    <div
-                      className={classNames(
-                        styles.ingredient_price,
-                        "text text_type_digits-default",
-                        "mt-1 mb-1"
-                      )}
-                    >
-                      <span>{ingredient.price} </span> <CurrencyIcon />
-                    </div>
-                    <div className="text text_type_main-default">
-                      {ingredient.name}
-                    </div>
-                    <Counter count={Math.floor(Math.random() * 5)} />
-                  </div>
+                  />
                 );
               })}
             </div>

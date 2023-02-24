@@ -1,48 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import classNames from "classnames";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { AppHeader } from "../app-header";
 import { BurgerIngredients } from "../burger-ingredients";
 import { BurgerConstructor } from "../burger-constructor";
 import styles from "./app.module.css";
 
-import { ingredientAPI } from "../../utils/endpoints";
-import { IngredientsContext } from "../../services/ingredientsContext";
-import { OrderContext } from "../../services/orderContext";
+import { getIngredientsAction } from "../../services/actions/burger-ingredients";
+import { useAppDispatch } from "../../hooks";
 
 function App() {
-  const [inregientsList, setInregientsList] = useState([]);
-  const orderState = useState(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    fetch(ingredientAPI)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((res) => {
-        if (res.success) {
-          setInregientsList(res.data);
-        } else {
-          return Promise.reject(`Ошибка получения данных`);
-        }
-      })
-      .catch((e) => {
-        console.log(e?.message);
-      });
-  }, []);
+    dispatch(getIngredientsAction());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
       <main className={classNames(styles.content, "pb-6")}>
-        <IngredientsContext.Provider value={inregientsList}>
-          <OrderContext.Provider value={orderState}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-          </OrderContext.Provider>
-        </IngredientsContext.Provider>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
       </main>
     </div>
   );

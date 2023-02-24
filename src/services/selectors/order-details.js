@@ -1,0 +1,1 @@
+export const selectOrderDetails = (state)=>state.order
