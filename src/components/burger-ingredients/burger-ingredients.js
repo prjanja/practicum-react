@@ -20,13 +20,19 @@ export const BurgerIngredients = () => {
   const [currentTab, setCurrentTab] = useState(IngredientTypes.BUN);
   const [currentIngredient, setCurrentIngredient] = useState(null);
   const groupsRef = useRef({});
+  const visibleGroups = useRef({});
 
   const observer = useRef(
     new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setCurrentTab(entry.target.dataset["groupType"]);
+          visibleGroups.current[entry.target.dataset["groupType"]] =
+            entry.isIntersecting;
+        }
+
+        for (let group in visibleGroups.current) {
+          if (visibleGroups.current[group]) {
+            setCurrentTab(group);
             break;
           }
         }

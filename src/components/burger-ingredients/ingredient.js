@@ -4,7 +4,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import { useDrag } from "react-dnd";
+import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
+import { igredientPropTypes } from "../../utils/types";
 
 export const Ingredient = ({ ingredient, onClick }) => {
   const [, dragRef] = useDrag(
@@ -37,4 +39,9 @@ export const Ingredient = ({ ingredient, onClick }) => {
       <Counter count={ingredient.count} />
     </div>
   );
+};
+
+Ingredient.propTypes = {
+  ingredient: igredientPropTypes.isRequired,
+  onClick: PropTypes.func,
 };

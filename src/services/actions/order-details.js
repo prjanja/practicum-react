@@ -1,5 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
 import { orderAPI } from "../../utils/endpoints";
+import { request } from "../../utils/request";
 import { orderConstants } from "../action-types";
 
 const createOrderStart = createAction(orderConstants.ORDER_PENDING);
@@ -10,7 +11,7 @@ export const createOrderAction = () => {
     dispatch(createOrderStart());
     const ingredientsList = getState().burgerIngredients.list;
 
-    return fetch(orderAPI, {
+    return request(orderAPI, {
       method: "POST",
       body: JSON.stringify({
         ingredients: ingredientsList.map((igredient) => igredient._id),
@@ -20,17 +21,7 @@ export const createOrderAction = () => {
       },
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((res) => {
-        if (res.success) {
-          dispatch(createOrderEnd(res.order));
-        } else {
-          return Promise.reject(`Ошибка получения данных`);
-        }
+        dispatch(createOrderEnd(res.order));
       })
       .catch((e) => {
         console.log(e?.message);

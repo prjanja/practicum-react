@@ -1,9 +1,14 @@
 import { createAction } from "@reduxjs/toolkit";
 import { ingredientAPI } from "../../utils/endpoints";
+import { request } from "../../utils/request";
 import { ingredientsConstants } from "../action-types";
 
-export const showIngredientDetails = createAction(ingredientsConstants.VIEW_INGREDIENT);
-export const hideIngredientDetails = createAction(ingredientsConstants.HIDE_INGREDIENT);
+export const showIngredientDetails = createAction(
+  ingredientsConstants.VIEW_INGREDIENT
+);
+export const hideIngredientDetails = createAction(
+  ingredientsConstants.HIDE_INGREDIENT
+);
 
 const getIngredientsStart = createAction(
   ingredientsConstants.INGREDIENTS_PENDING
@@ -16,19 +21,9 @@ export const getIngredientsAction = () => {
   return (dispatch) => {
     dispatch(getIngredientsStart());
 
-    return fetch(ingredientAPI)
+    return request(ingredientAPI)
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((res) => {
-        if (res.success) {
-          dispatch(getIngredientsEnd(res.data));
-        } else {
-          return Promise.reject(`Ошибка получения данных`);
-        }
+        dispatch(getIngredientsEnd(res.data));
       })
       .catch((e) => {
         console.log(e?.message);

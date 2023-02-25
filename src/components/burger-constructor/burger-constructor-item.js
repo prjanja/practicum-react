@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import PropTypes from "prop-types";
 import { useDrag, useDrop } from "react-dnd";
 import {
   DragIcon,
@@ -9,6 +10,7 @@ import { useAppDispatch } from "../../hooks";
 import { ingredientDelete, ingredientMove } from "../../services/actions";
 import styles from "./burger-constructor.module.css";
 import classNames from "classnames";
+import { igredientPropTypes } from "../../utils/types";
 
 export const BurgerConstructorItem = ({ ingredient, index }) => {
   const ref = useRef(null);
@@ -42,7 +44,6 @@ export const BurgerConstructorItem = ({ ingredient, index }) => {
 
   return (
     <div
-      key={`${ingredient.id} + ${index}`}
       className={classNames(
         styles.row,
         isOver && direction === "up" && styles.row_over_up,
@@ -63,4 +64,9 @@ export const BurgerConstructorItem = ({ ingredient, index }) => {
       />
     </div>
   );
+};
+
+BurgerConstructorItem.propTypes = {
+  ingredient: igredientPropTypes.isRequired,
+  index: PropTypes.number.isRequired,
 };

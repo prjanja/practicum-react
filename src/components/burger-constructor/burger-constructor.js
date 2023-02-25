@@ -7,6 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import { useDrop } from "react-dnd";
+import { v4 as uuidv4 } from "uuid";
 import styles from "./burger-constructor.module.css";
 import { Modal } from "../modal";
 import { OrderDetails } from "../order-details";
@@ -50,7 +51,7 @@ export const BurgerConstructor = () => {
   const [{ canDrop }, dropRef] = useDrop(() => ({
     accept: "ingredient",
     drop(item) {
-      dispatch(ingredientAdd(item));
+      dispatch(ingredientAdd({ ...item, uuid: uuidv4() }));
     },
     collect: (monitor) => ({
       canDrop: !!monitor.canDrop(),
@@ -80,7 +81,7 @@ export const BurgerConstructor = () => {
         <div className={styles.editableItems_wrapper}>
           {editableIngredients.map((ingredient, idx) => (
             <BurgerConstructorItem
-              key={`${ingredient.id} + ${idx}`}
+              key={`${ingredient.uuid || ingredient.id}`}
               ingredient={ingredient}
               index={idx + Number(Boolean(bun))}
             />
