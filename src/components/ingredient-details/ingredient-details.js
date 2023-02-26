@@ -42,5 +42,5 @@ export const IngredientDetails = ({ ingredient }) => {
 };
 
 IngredientDetails.propTypes = {
-  ingredient: igredientPropTypes,
+  ingredient: igredientPropTypes.isRequired,
 };

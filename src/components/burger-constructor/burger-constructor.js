@@ -1,69 +1,73 @@
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   CurrencyIcon,
-  DragIcon,
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
+import { useDrop } from "react-dnd";
+import { v4 as uuidv4 } from "uuid";
 import styles from "./burger-constructor.module.css";
 import { Modal } from "../modal";
 import { OrderDetails } from "../order-details";
-import { IngredientsContext } from "../../services/ingredientsContext";
-import { OrderContext } from "../../services/orderContext";
-import { orderAPI } from "../../utils/endpoints";
+import { useAppDispatch } from "../../hooks";
+import { createOrderAction } from "../../services/actions/order-details";
+import {
+  selectBurgerConstructorList,
+  selectOrderDetails,
+} from "../../services/selectors";
+import { ingredientAdd } from "../../services/actions";
+import { IngredientTypes } from "../../utils/ingredient-types";
+import { BurgerConstructorItem } from "./burger-constructor-item";
 
 export const BurgerConstructor = () => {
-  const ingredientsList = useContext(IngredientsContext);
-  const [order, setOrder] = useContext(OrderContext);
+  const ingredientsList = useSelector(selectBurgerConstructorList);
+  const order = useSelector(selectOrderDetails);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const bun = useMemo(() => {
-    return ingredientsList.find((i) => i.type === "bun");
+    return ingredientsList.find((i) => i.type === IngredientTypes.BUN);
   }, [ingredientsList]);
 
   const editableIngredients = useMemo(() => {
-    return ingredientsList.filter((i) => i.type !== "bun");
+    return ingredientsList.filter((i) => i.type !== IngredientTypes.BUN);
   }, [ingredientsList]);
 
   const totalSum = useMemo(() => {
-    return ingredientsList.reduce((acc, cur) => acc + cur.price, 0);
-  }, [ingredientsList]);
+    return (
+      editableIngredients.reduce((acc, cur) => acc + cur.price, 0) +
+      (bun?.price || 0) * 2
+    );
+  }, [editableIngredients, bun]);
 
   const handleCloseModal = useCallback(() => setIsModalOpen((v) => false), []);
 
+  const dispatch = useAppDispatch();
+
   const handleCreateOrder = () => {
-    return fetch(orderAPI, {
-      method: "POST",
-      body: JSON.stringify({
-        ingredients: ingredientsList.map((igredient) => igredient._id),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(`Ошибка ${res.status}`);
-      })
-      .then((res) => {
-        if (res.success) {
-          console.log(res.order);
-          setOrder(res.order);
-        } else {
-          return Promise.reject(`Ошибка получения данных`);
-        }
-      })
-      .then(() => setIsModalOpen(true))
-      .catch((e) => {
-        console.log(e?.message);
-      });
+    return dispatch(createOrderAction()).then(() => setIsModalOpen(true));
   };
+
+  const [{ canDrop }, dropRef] = useDrop(() => ({
+    accept: "ingredient",
+    drop(item) {
+      dispatch(ingredientAdd({ ...item, uuid: uuidv4() }));
+    },
+    collect: (monitor) => ({
+      canDrop: !!monitor.canDrop(),
+    }),
+  }));
 
   return (
     <section className={classNames(styles.constructor_wrapper, "pr-4 pl-4")}>
-      <div className={classNames(styles.ingredients_wrapper, "mt-25 mb-10")}>
+      <div
+        className={classNames(
+          styles.ingredients_wrapper,
+          "mt-25 mb-10",
+          canDrop && styles.ingredients_wrapper_active
+        )}
+        ref={dropRef}
+      >
         {bun && (
           <ConstructorElement
             type="top"
@@ -76,23 +80,18 @@ export const BurgerConstructor = () => {
         )}
         <div className={styles.editableItems_wrapper}>
           {editableIngredients.map((ingredient, idx) => (
-            <div key={`${ingredient.id} + ${idx}`} className={styles.row}>
-              <div className={styles.drag_icon}>
-                <DragIcon />
-              </div>
-              <ConstructorElement
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image}
-              />
-            </div>
+            <BurgerConstructorItem
+              key={`${ingredient.uuid || ingredient.id}`}
+              ingredient={ingredient}
+              index={idx + Number(Boolean(bun))}
+            />
           ))}
         </div>
         {bun && (
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={bun.name + " (верх)"}
+            text={bun.name + " (низ)"}
             price={bun.price}
             thumbnail={bun.image}
             extraClass={classNames(styles.locked_row, "ml-10")}

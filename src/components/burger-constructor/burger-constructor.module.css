@@ -14,6 +14,10 @@
   gap: 16px;
 }
 
+.ingredients_wrapper_active {
+  border: solid 1px greenyellow;
+}
+
 .editableItems_wrapper {
   overflow: auto;
   min-height: 100px;
@@ -32,11 +36,25 @@
 
 .drag_icon {
   width: 40px;
+  cursor: pointer;
 }
 
 .row {
   display: flex;
   align-items: center;
+}
+
+.row_over_up {
+  border-top: 1px solid greenyellow;
+  padding-top: 5px;
+}
+.row_over_down {
+  border-bottom: 1px solid greenyellow;
+  padding-bottom: 5px;
+}
+.row_over {
+  border-bottom: 1px solid greenyellow;
+  padding-bottom: 5px;
 }
 
 .locked_row {
