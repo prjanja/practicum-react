@@ -21,4 +21,13 @@
   align-items: center;
   composes: p-5 from global;
   gap: 8px;
+  text-decoration: none;
+}
+
+.header_item:first-child {
+  padding-left: 0;
+}
+
+.header_item:last-child {
+  padding-right: 0;
 }

@@ -1,10 +1,9 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import styles from "./burger-ingredients.module.css";
-import { IngredientDetails } from "../ingredient-details";
-import { Modal } from "../modal";
 import { selectBurgerIngredients } from "../../services/selectors";
 import { Ingredient } from "./ingredient";
 import { IngredientTypes } from "../../utils/ingredient-types";
@@ -18,9 +17,10 @@ const tabs = [
 export const BurgerIngredients = () => {
   const ingredientsList = useSelector(selectBurgerIngredients);
   const [currentTab, setCurrentTab] = useState(IngredientTypes.BUN);
-  const [currentIngredient, setCurrentIngredient] = useState(null);
   const groupsRef = useRef({});
   const visibleGroups = useRef({});
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const observer = useRef(
     new IntersectionObserver(
@@ -68,8 +68,6 @@ export const BurgerIngredients = () => {
     }));
   }, [ingredientsList]);
 
-  const handleCloseModal = useCallback(() => setCurrentIngredient(null), []);
-
   return (
     <section className={styles.ingredients_wrapper}>
       <h1 className="text text_type_main-large mt-10 mb-5">Собери бургер</h1>
@@ -108,7 +106,11 @@ export const BurgerIngredients = () => {
                   <Ingredient
                     key={ingredient._id}
                     ingredient={ingredient}
-                    onClick={() => setCurrentIngredient(ingredient)}
+                    onClick={() => {
+                      navigate(`/ingredients/${ingredient._id}`, {
+                        state: { background: location },
+                      });
+                    }}
                   />
                 );
               })}
@@ -116,11 +118,6 @@ export const BurgerIngredients = () => {
           </div>
         ))}
       </div>
-      {Boolean(currentIngredient) && (
-        <Modal onClose={handleCloseModal} title={"Детали ингредиента"}>
-          <IngredientDetails ingredient={currentIngredient} />
-        </Modal>
-      )}
     </section>
   );
 };

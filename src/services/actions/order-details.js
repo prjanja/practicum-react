@@ -1,4 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
+import { getCookie } from "../../utils/cookie";
 import { orderAPI } from "../../utils/endpoints";
 import { request } from "../../utils/request";
 import { orderConstants } from "../action-types";
@@ -9,6 +10,7 @@ const createOrderEnd = createAction(orderConstants.ORDER_FULFILLED);
 export const createOrderAction = () => {
   return (dispatch, getState) => {
     dispatch(createOrderStart());
+    const token = getCookie("accessToken");
     const ingredientsList = getState().burgerIngredients.list;
 
     return request(orderAPI, {
@@ -18,6 +20,7 @@ export const createOrderAction = () => {
       }),
       headers: {
         "Content-Type": "application/json",
+        authorization: token,
       },
     })
       .then((res) => {
