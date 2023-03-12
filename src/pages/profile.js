@@ -35,14 +35,14 @@ export const ProfilePage = () => {
         <Input
           extraClass="mb-6"
           placeholder="Имя"
-          value={form.email}
-          onChange={handleChangeForm("email")}
+          value={form.name}
+          onChange={handleChangeForm("name")}
         />
         <Input
           extraClass="mt-6 mb-6"
           placeholder="Логин"
-          value={form.name}
-          onChange={handleChangeForm("name")}
+          value={form.email}
+          onChange={handleChangeForm("email")}
         />
         <Input
           extraClass="mt-6 mb-6"

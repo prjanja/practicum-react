@@ -3,6 +3,7 @@ import { getCookie } from "../../utils/cookie";
 import { orderAPI } from "../../utils/endpoints";
 import { request } from "../../utils/request";
 import { orderConstants } from "../action-types";
+import { selectBurgerConstructorList } from "../selectors";
 
 const createOrderStart = createAction(orderConstants.ORDER_PENDING);
 const createOrderEnd = createAction(orderConstants.ORDER_FULFILLED);
@@ -11,7 +12,7 @@ export const createOrderAction = () => {
   return (dispatch, getState) => {
     dispatch(createOrderStart());
     const token = getCookie("accessToken");
-    const ingredientsList = getState().burgerIngredients.list;
+    const ingredientsList = selectBurgerConstructorList(getState());
 
     return request(orderAPI, {
       method: "POST",

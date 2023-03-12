@@ -8,6 +8,11 @@ export const getCookie = (name) => {
 };
 
 export const setCookie = (name, value, options = {}) => {
+  options = {
+    path: "/",
+    ...options,
+  };
+  
   if (options.expires instanceof Date) {
     options.expires = options.expires.toUTCString();
   }

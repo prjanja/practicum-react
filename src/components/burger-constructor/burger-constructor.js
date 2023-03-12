@@ -114,6 +114,7 @@ export const BurgerConstructor = () => {
           size="large"
           extraClass="ml-10"
           onClick={handleCreateOrder}
+          disabled={ingredientsList.length === 0}
         >
           Оформить заказ
         </Button>

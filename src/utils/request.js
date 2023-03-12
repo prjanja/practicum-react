@@ -44,7 +44,15 @@ export function request(url, options) {
     .then(checkSuccess)
     .catch((err) => {
       if (err.message === "jwt expired") {
-        return refreshToken().then(() => request(url, options));
+        return refreshToken().then(() =>
+          request(url, {
+            ...options,
+            headers: {
+              ...options.headers,
+              authorization: getCookie("accessToken"),
+            },
+          })
+        );
       }
 
       throw err;

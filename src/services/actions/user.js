@@ -90,6 +90,9 @@ export const logoutAction = () => {
 export const getUserAction = () => {
   return (dispatch) => {
     const token = getCookie("accessToken");
+    if(!token){
+      return;
+    }
 
     dispatch(getUserStart());
 
