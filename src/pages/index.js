@@ -1,0 +1,10 @@
+export { LoginPage } from "./login";
+export { ProfilePage } from "./profile";
+export { RegisterPage } from "./register";
+export { ForgotPasswordPage } from "./forgot-password";
+export { ResetPasswordPage } from "./reset-password";
+export { HomePage } from "./home";
+export { NotFound404 } from "./not-found";
+export { IngredientPage } from "./ingredient";
+export { OrdersPage } from "./orders";
+export { ProfileLayoutPage } from "./profile-layout";

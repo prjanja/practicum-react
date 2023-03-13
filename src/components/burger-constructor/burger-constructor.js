@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   CurrencyIcon,
   Button,
@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 import styles from "./burger-constructor.module.css";
 import { Modal } from "../modal";
 import { OrderDetails } from "../order-details";
-import { useAppDispatch } from "../../hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { createOrderAction } from "../../services/actions/order-details";
 import {
   selectBurgerConstructorList,
@@ -20,10 +20,12 @@ import {
 import { ingredientAdd } from "../../services/actions";
 import { IngredientTypes } from "../../utils/ingredient-types";
 import { BurgerConstructorItem } from "./burger-constructor-item";
+import { selectIsUserAuthorized } from "../../services/selectors/user";
 
 export const BurgerConstructor = () => {
-  const ingredientsList = useSelector(selectBurgerConstructorList);
-  const order = useSelector(selectOrderDetails);
+  const ingredientsList = useAppSelector(selectBurgerConstructorList);
+  const isUserAuthorized = useAppSelector(selectIsUserAuthorized);
+  const order = useAppSelector(selectOrderDetails);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const bun = useMemo(() => {
     return ingredientsList.find((i) => i.type === IngredientTypes.BUN);
@@ -43,8 +45,13 @@ export const BurgerConstructor = () => {
   const handleCloseModal = useCallback(() => setIsModalOpen((v) => false), []);
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleCreateOrder = () => {
+    if (!isUserAuthorized) {
+      navigate("/login");
+    }
+
     return dispatch(createOrderAction()).then(() => setIsModalOpen(true));
   };
 
@@ -107,6 +114,7 @@ export const BurgerConstructor = () => {
           size="large"
           extraClass="ml-10"
           onClick={handleCreateOrder}
+          disabled={ingredientsList.length === 0}
         >
           Оформить заказ
         </Button>
