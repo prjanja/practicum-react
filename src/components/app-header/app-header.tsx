@@ -1,15 +1,21 @@
 import { NavLink } from "react-router-dom";
-import PropTypes from "prop-types";
 import {
   Logo,
   BurgerIcon,
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TIconProps } from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils";
 import classNames from "classnames";
 import styles from "./app-header.module.css";
 
-const MenuItem = ({ title, icon, path }) => {
+type MenuItemProps = {
+  title: string;
+  icon: React.ComponentType<TIconProps>;
+  path: string;
+};
+
+const MenuItem = ({ title, icon, path }: MenuItemProps) => {
   const Icon = icon;
 
   return (
@@ -29,12 +35,6 @@ const MenuItem = ({ title, icon, path }) => {
       )}
     </NavLink>
   );
-};
-
-MenuItem.propTypes = {
-  title: PropTypes.string,
-  path: PropTypes.string.isRequired,
-  icon: PropTypes.elementType.isRequired,
 };
 
 export const AppHeader = () => {

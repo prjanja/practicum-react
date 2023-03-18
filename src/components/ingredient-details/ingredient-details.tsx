@@ -1,8 +1,12 @@
 import classNames from "classnames";
-import { igredientPropTypes } from "../../utils/types";
+import {  Ingredient } from "../../utils/types";
 import styles from "./ingredient-details.module.css";
 
-export const IngredientDetails = ({ ingredient }) => {
+type OwnProps = {
+  ingredient: Ingredient;
+};
+
+export const IngredientDetails = ({ ingredient }: OwnProps) => {
   return (
     <div className={classNames(styles.ingredient, "mb-8")}>
       <div className="mb-4">
@@ -39,8 +43,4 @@ export const IngredientDetails = ({ ingredient }) => {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingredient: igredientPropTypes.isRequired,
 };

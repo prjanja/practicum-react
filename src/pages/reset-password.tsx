@@ -26,10 +26,10 @@ export const ResetPasswordPage = () => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => {
+      .then(() => {
         navigate("/", { replace: true });
       })
-      .catch((e) => {
+      .catch((e: Error) => {
         console.log(e?.message || e);
       });
   };

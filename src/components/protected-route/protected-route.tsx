@@ -1,5 +1,4 @@
 import { Outlet, Navigate, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 
 type ProtectedRouteProps = Partial<{
   isAllowed: boolean;
@@ -23,10 +22,4 @@ export const ProtectedRoute = ({
   }
 
   return children ? children : <Outlet />;
-};
-
-ProtectedRoute.propTypes = {
-  isAllowed: PropTypes.bool,
-  redirectPath: PropTypes.string,
-  children: PropTypes.node,
 };

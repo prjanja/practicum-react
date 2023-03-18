@@ -4,11 +4,17 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
 import { useDrag } from "react-dnd";
-import PropTypes from "prop-types";
 import styles from "./burger-ingredients.module.css";
-import { igredientPropTypes } from "../../utils/types";
+import {
+  Ingredient as TIngredient,
+} from "../../utils/types";
 
-export const Ingredient = ({ ingredient, onClick }) => {
+type OwnProps = {
+  ingredient: TIngredient & { count: number };
+  onClick: () => void;
+};
+
+export const Ingredient = ({ ingredient, onClick }: OwnProps) => {
   const [, dragRef] = useDrag(
     () => ({
       type: "ingredient",
@@ -33,15 +39,10 @@ export const Ingredient = ({ ingredient, onClick }) => {
           "mt-1 mb-1"
         )}
       >
-        <span>{ingredient.price} </span> <CurrencyIcon />
+        <span>{ingredient.price} </span> <CurrencyIcon type="primary" />
       </div>
       <div className="text text_type_main-default">{ingredient.name}</div>
       <Counter count={ingredient.count} />
     </div>
   );
-};
-
-Ingredient.propTypes = {
-  ingredient: igredientPropTypes.isRequired,
-  onClick: PropTypes.func,
 };
