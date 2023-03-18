@@ -15,9 +15,10 @@ export const RegisterPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleChangeForm = (fieldName) => (e) => {
-    setForm((old) => ({ ...old, [fieldName]: e.target.value }));
-  };
+  const handleChangeForm =
+    (fieldName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setForm((old) => ({ ...old, [fieldName]: e.target.value }));
+    };
 
   const handleRegister = () => {
     dispatch(registerAction(form)).then(() => navigate("/", { replace: true }));

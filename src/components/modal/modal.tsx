@@ -2,20 +2,25 @@ import { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
-import PropTypes from "prop-types";
 
 import { ModalOverlay } from "./modal-overlay";
 import styles from "./modal.module.css";
 
 const modalRoot = document.getElementById("modals-root");
 
+type OwnProps = {
+  title?: string;
+  onClose: () => void;
+  children: React.ReactNode;
+};
+
 export const Modal = ({
   title,
-  onClose = (f) => console.log("close"),
+  onClose = () => console.log("close"),
   children,
-}) => {
+}: OwnProps) => {
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
       }
@@ -38,18 +43,12 @@ export const Modal = ({
             {title}
           </span>
           <div className={styles.close_icon}>
-            <CloseIcon onClick={onClose} />
+            <CloseIcon type="primary" onClick={onClose} />
           </div>
         </div>
         <div>{children}</div>
       </div>
     </div>,
-    modalRoot
+    modalRoot!
   );
-};
-
-Modal.propTypes = {
-  title: PropTypes.node,
-  onClose: PropTypes.func,
-  children: PropTypes.node,
 };

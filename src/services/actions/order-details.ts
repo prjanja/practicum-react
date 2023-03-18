@@ -4,11 +4,12 @@ import { orderAPI } from "../../utils/endpoints";
 import { request } from "../../utils/request";
 import { orderConstants } from "../action-types";
 import { selectBurgerConstructorList } from "../selectors";
+import { AppThunk } from "../store";
 
 const createOrderStart = createAction(orderConstants.ORDER_PENDING);
 const createOrderEnd = createAction(orderConstants.ORDER_FULFILLED);
 
-export const createOrderAction = () => {
+export const createOrderAction = (): AppThunk<Promise<void>> => {
   return (dispatch, getState) => {
     dispatch(createOrderStart());
     const token = getCookie("accessToken");
@@ -21,7 +22,7 @@ export const createOrderAction = () => {
       }),
       headers: {
         "Content-Type": "application/json",
-        authorization: token,
+        authorization: token || "",
       },
     })
       .then((res) => {

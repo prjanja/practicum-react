@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import classNames from "classnames";
@@ -7,6 +6,8 @@ import styles from "./burger-ingredients.module.css";
 import { selectBurgerIngredients } from "../../services/selectors";
 import { Ingredient } from "./ingredient";
 import { IngredientTypes } from "../../utils/ingredient-types";
+import { Ingredient as TIngredient } from "../../utils/types";
+import { useAppSelector } from "../../hooks";
 
 const tabs = [
   { label: "Булки", value: IngredientTypes.BUN },
@@ -14,11 +15,16 @@ const tabs = [
   { label: "Начинки", value: IngredientTypes.MAIN },
 ];
 
+type BoolDictionary = { [key: string]: boolean };
+type IngredientWithCounter = TIngredient & { count: number };
+
 export const BurgerIngredients = () => {
-  const ingredientsList = useSelector(selectBurgerIngredients);
+  const ingredientsList = useAppSelector(
+    selectBurgerIngredients
+  ) as Array<IngredientWithCounter>;
   const [currentTab, setCurrentTab] = useState(IngredientTypes.BUN);
-  const groupsRef = useRef({});
-  const visibleGroups = useRef({});
+  const groupsRef = useRef<{ [key: string]: HTMLDivElement }>({});
+  const visibleGroups = useRef<BoolDictionary>({} as BoolDictionary);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,7 +32,8 @@ export const BurgerIngredients = () => {
     new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          visibleGroups.current[entry.target.dataset["groupType"]] =
+          const target = entry.target as HTMLElement;
+          visibleGroups.current[String(target.dataset["groupType"])] =
             entry.isIntersecting;
         }
 
@@ -44,7 +51,7 @@ export const BurgerIngredients = () => {
   );
 
   const setRef = useCallback(
-    (type) => (node) => {
+    (type: string) => (node: HTMLDivElement) => {
       if (node && !groupsRef.current[type]) {
         observer.current.observe(node);
         groupsRef.current[type] = node;
@@ -53,8 +60,13 @@ export const BurgerIngredients = () => {
     []
   );
 
-  const ingredientsGroups = useMemo(() => {
-    let groups = {};
+  const ingredientsGroups = useMemo<
+    Array<{
+      type: string;
+      ingredientsArray: Array<IngredientWithCounter>;
+    }>
+  >(() => {
+    let groups: { [key: string]: Array<IngredientWithCounter> } = {};
     for (const ingredient of ingredientsList) {
       if (!Array.isArray(groups[ingredient.type])) {
         groups[ingredient.type] = [];
@@ -98,7 +110,7 @@ export const BurgerIngredients = () => {
             <div
               className={classNames("text text_type_main-medium", "mt-6 mb-10")}
             >
-              {tabs.find((tab) => tab.value === ingredientsGroups.type).label}
+              {tabs.find((tab) => tab.value === ingredientsGroups.type)?.label}
             </div>
             <div className={classNames(styles.ingredients_list, "pl-4 pr-4")}>
               {ingredientsGroups.ingredientsArray.map((ingredient) => {

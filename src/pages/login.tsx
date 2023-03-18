@@ -21,9 +21,10 @@ export const LoginPage = () => {
       navigate(originPath || "/", { replace: true });
     });
   };
-  const handleChangeForm = (fieldName) => (e) => {
-    setForm((old) => ({ ...old, [fieldName]: e.target.value }));
-  };
+  const handleChangeForm =
+    (fieldName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setForm((old) => ({ ...old, [fieldName]: e.target.value }));
+    };
 
   return (
     <div className={styles.page_centered_content}>

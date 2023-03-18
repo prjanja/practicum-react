@@ -1,5 +1,4 @@
 import { useRef } from "react";
-import PropTypes from "prop-types";
 import { useDrag, useDrop } from "react-dnd";
 import {
   DragIcon,
@@ -10,13 +9,26 @@ import { useAppDispatch } from "../../hooks";
 import { ingredientDelete, ingredientMove } from "../../services/actions";
 import styles from "./burger-constructor.module.css";
 import classNames from "classnames";
-import { igredientPropTypes } from "../../utils/types";
+import { Ingredient } from "../../utils/types";
 
-export const BurgerConstructorItem = ({ ingredient, index }) => {
+type OwnProps = {
+  ingredient: Ingredient;
+  index: number;
+};
+type DragObject = {
+  index: number;
+};
+type CollectedProps = { isOver: boolean; direction: string | null };
+
+export const BurgerConstructorItem = ({ ingredient, index }: OwnProps) => {
   const ref = useRef(null);
   const dispatch = useAppDispatch();
 
-  const [{ isOver, direction }, dropRef] = useDrop(() => ({
+  const [{ isOver, direction }, dropRef] = useDrop<
+    DragObject,
+    void,
+    CollectedProps
+  >(() => ({
     accept: "ingredient_sort",
     drop(item) {
       if (item.index !== index)
@@ -25,7 +37,7 @@ export const BurgerConstructorItem = ({ ingredient, index }) => {
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
       direction: !!monitor
-        ? monitor.getDifferenceFromInitialOffset()?.y < 0
+        ? Number(monitor.getDifferenceFromInitialOffset()?.y) < 0
           ? "up"
           : "down"
         : null,
@@ -52,7 +64,7 @@ export const BurgerConstructorItem = ({ ingredient, index }) => {
       ref={ref}
     >
       <div className={styles.drag_icon}>
-        <DragIcon />
+        <DragIcon type="secondary" />
       </div>
       <ConstructorElement
         text={ingredient.name}
@@ -64,9 +76,4 @@ export const BurgerConstructorItem = ({ ingredient, index }) => {
       />
     </div>
   );
-};
-
-BurgerConstructorItem.propTypes = {
-  ingredient: igredientPropTypes.isRequired,
-  index: PropTypes.number.isRequired,
 };

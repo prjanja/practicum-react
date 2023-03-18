@@ -2,6 +2,7 @@ import { createAction } from "@reduxjs/toolkit";
 import { ingredientAPI } from "../../utils/endpoints";
 import { request } from "../../utils/request";
 import { ingredientsConstants } from "../action-types";
+import { AppThunk } from "../store";
 
 export const showIngredientDetails = createAction(
   ingredientsConstants.VIEW_INGREDIENT
@@ -17,7 +18,7 @@ const getIngredientsEnd = createAction(
   ingredientsConstants.INGREDIENTS_FULFILLED
 );
 
-export const getIngredientsAction = () => {
+export const getIngredientsAction = (): AppThunk => {
   return (dispatch) => {
     dispatch(getIngredientsStart());
 

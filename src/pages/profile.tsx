@@ -8,22 +8,30 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { selectUser } from "../services/selectors/user";
 import { updateUserAction } from "../services/actions";
 
+type OwnState = {
+  name: string;
+  email: string;
+  password: string;
+  dirtyFlag?: boolean;
+};
+
 export const ProfilePage = () => {
   const defaultFormData = useAppSelector(selectUser);
-  const [form, setForm] = useState(defaultFormData);
+  const [form, setForm] = useState<OwnState>(defaultFormData);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     setForm(defaultFormData);
   }, [defaultFormData]);
 
-  const handleChangeForm = (fieldName) => (e) => {
-    setForm((old) => ({
-      ...old,
-      [fieldName]: e.target.value,
-      dirtyFlag: true,
-    }));
-  };
+  const handleChangeForm =
+    (fieldName: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setForm((old) => ({
+        ...old,
+        [fieldName]: e.target.value,
+        dirtyFlag: true,
+      }));
+    };
 
   const handleSaveForm = () => {
     dispatch(updateUserAction(form));

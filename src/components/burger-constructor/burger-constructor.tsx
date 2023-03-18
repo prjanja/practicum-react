@@ -21,11 +21,18 @@ import { ingredientAdd } from "../../services/actions";
 import { IngredientTypes } from "../../utils/ingredient-types";
 import { BurgerConstructorItem } from "./burger-constructor-item";
 import { selectIsUserAuthorized } from "../../services/selectors/user";
+import { Ingredient } from "../../utils/types";
 
 export const BurgerConstructor = () => {
-  const ingredientsList = useAppSelector(selectBurgerConstructorList);
+  const ingredientsList = useAppSelector<
+    Array<
+      Ingredient & {
+        uuid?: string;
+      }
+    >
+  >(selectBurgerConstructorList);
   const isUserAuthorized = useAppSelector(selectIsUserAuthorized);
-  const order = useAppSelector(selectOrderDetails);
+  const order = useAppSelector(selectOrderDetails) as { number: string };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const bun = useMemo(() => {
     return ingredientsList.find((i) => i.type === IngredientTypes.BUN);
@@ -37,7 +44,7 @@ export const BurgerConstructor = () => {
 
   const totalSum = useMemo(() => {
     return (
-      editableIngredients.reduce((acc, cur) => acc + cur.price, 0) +
+      editableIngredients.reduce((acc: number, cur) => acc + cur.price, 0) +
       (bun?.price || 0) * 2
     );
   }, [editableIngredients, bun]);
@@ -55,7 +62,11 @@ export const BurgerConstructor = () => {
     return dispatch(createOrderAction()).then(() => setIsModalOpen(true));
   };
 
-  const [{ canDrop }, dropRef] = useDrop(() => ({
+  const [{ canDrop }, dropRef] = useDrop<
+    Ingredient,
+    void,
+    { canDrop: boolean }
+  >(() => ({
     accept: "ingredient",
     drop(item) {
       dispatch(ingredientAdd({ ...item, uuid: uuidv4() }));
@@ -86,9 +97,9 @@ export const BurgerConstructor = () => {
           />
         )}
         <div className={styles.editableItems_wrapper}>
-          {editableIngredients.map((ingredient, idx) => (
+          {editableIngredients.map((ingredient, idx: number) => (
             <BurgerConstructorItem
-              key={`${ingredient.uuid || ingredient.id}`}
+              key={`${ingredient.uuid || ingredient._id}`}
               ingredient={ingredient}
               index={idx + Number(Boolean(bun))}
             />
@@ -107,7 +118,7 @@ export const BurgerConstructor = () => {
       </div>
       <div className={classNames(styles.footer, "mb-10 mr-4 ml-4")}>
         <span className="text text_type_digits-medium">
-          {totalSum} <CurrencyIcon />
+          {totalSum} <CurrencyIcon type="primary" />
         </span>
         <Button
           htmlType="button"

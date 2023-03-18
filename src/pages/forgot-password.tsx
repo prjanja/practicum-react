@@ -22,13 +22,13 @@ export const ForgotPasswordPage = () => {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => {
+      .then(() => {
         navigate("/reset-password", {
           state: { resetted: true },
           replace: true,
         });
       })
-      .catch((e) => {
+      .catch((e: Error) => {
         console.log(e?.message || e);
       });
   };

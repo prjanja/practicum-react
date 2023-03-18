@@ -8,6 +8,7 @@ import {
 } from "../../utils/endpoints";
 import { request } from "../../utils/request";
 import { userConstants } from "../action-types";
+import { AppThunk } from "../store";
 
 const registrationStart = createAction(userConstants.REGISTRATION_USER_PENDING);
 const registrationEnd = createAction(userConstants.REGISTRATION_USER_FULFILLED);
@@ -22,7 +23,10 @@ const getUserStart = createAction(userConstants.GET_USER_PENDING);
 const getUserEnd = createAction(userConstants.GET_USER_FULFILLED);
 const getUserError = createAction(userConstants.GET_USER_ERROR);
 
-export const registerAction = (user) => {
+export const registerAction = (user: {
+  name: string;
+  email: string;
+}): AppThunk<Promise<void>> => {
   return (dispatch) => {
     dispatch(registrationStart());
 
@@ -44,13 +48,16 @@ export const registerAction = (user) => {
   };
 };
 
-export const loginAction = (user) => {
+export const loginAction = (loginData: {
+  email: string;
+  password: string;
+}): AppThunk<Promise<void>> => {
   return (dispatch) => {
     dispatch(loginStart());
 
     return request(loginAPI, {
       method: "POST",
-      body: JSON.stringify(user),
+      body: JSON.stringify(loginData),
       headers: {
         "Content-Type": "application/json",
       },
@@ -62,7 +69,7 @@ export const loginAction = (user) => {
   };
 };
 
-export const logoutAction = () => {
+export const logoutAction = (): AppThunk<Promise<void>> => {
   return (dispatch) => {
     dispatch(logoutStart());
     const token = getCookie("refreshToken");
@@ -87,10 +94,10 @@ export const logoutAction = () => {
   };
 };
 
-export const getUserAction = () => {
+export const getUserAction = (): AppThunk<void | Promise<void>> => {
   return (dispatch) => {
     const token = getCookie("accessToken");
-    if(!token){
+    if (!token) {
       return;
     }
 
@@ -111,7 +118,11 @@ export const getUserAction = () => {
   };
 };
 
-export const updateUserAction = (user) => {
+export const updateUserAction = (user: {
+  name: string;
+  email: string;
+  password: string;
+}): AppThunk<Promise<void>> => {
   return (dispatch) => {
     dispatch(getUserStart());
     const token = getCookie("accessToken");
@@ -120,7 +131,7 @@ export const updateUserAction = (user) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        authorization: token,
+        authorization: token || "",
       },
       body: JSON.stringify(user),
     })

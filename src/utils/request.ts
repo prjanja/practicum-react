@@ -1,7 +1,7 @@
 import { getCookie, setCookie } from "./cookie";
 import { tokenRefreshAPI } from "./endpoints";
 
-const checkResponse = (response) => {
+const checkResponse = (response: Response) => {
   if (!response.ok) {
     return response.json().then((err) => Promise.reject(err));
   }
@@ -13,7 +13,7 @@ const checkResponse = (response) => {
   return response;
 };
 
-const checkSuccess = (res) => {
+const checkSuccess = (res: any) => {
   if (res && res.success) {
     return res;
   }
@@ -38,7 +38,10 @@ const refreshToken = () => {
   });
 };
 
-export function request(url, options) {
+export function request<T = any>(
+  url: string,
+  options: RequestInit = {}
+): Promise<T> {
   return fetch(url, options)
     .then(checkResponse)
     .then(checkSuccess)
@@ -49,7 +52,7 @@ export function request(url, options) {
             ...options,
             headers: {
               ...options.headers,
-              authorization: getCookie("accessToken"),
+              authorization: getCookie("accessToken") || "",
             },
           })
         );
