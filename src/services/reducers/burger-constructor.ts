@@ -1,14 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { IngredientTypes } from "../../utils/ingredient-types";
-import { constructorConstants } from "../action-types";
+import { Ingredient } from "../../utils/types";
+import { ingredientAdd, ingredientDelete, ingredientMove } from "../actions";
 
-const initialState = [];
+const initialState: Array<Ingredient> = [];
 
 export const burgerConstructorReducer = createReducer(
   initialState,
   (builder) => {
     builder
-      .addCase(constructorConstants.INGREDIENT_ADD, (state, action) => {
+      .addCase(ingredientAdd, (state, action) => {
         let currentBunIdx = state.findIndex(
           (e) => e.type === IngredientTypes.BUN
         );
@@ -22,10 +23,10 @@ export const burgerConstructorReducer = createReducer(
           state.push(action.payload);
         }
       })
-      .addCase(constructorConstants.INGREDIENT_REMOVE, (state, action) => {
+      .addCase(ingredientDelete, (state, action) => {
         state.splice(action.payload.idx, 1);
       })
-      .addCase(constructorConstants.INGREDIENT_MOVE, (state, action) => {
+      .addCase(ingredientMove, (state, action) => {
         const { start, end } = action.payload;
 
         state.splice(end, 0, state.splice(start, 1)[0]);

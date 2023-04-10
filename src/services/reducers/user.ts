@@ -1,5 +1,12 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { userConstants } from "../action-types";
+import {
+  getUserEnd,
+  getUserError,
+  getUserStart,
+  loginEnd,
+  logoutEnd,
+  registrationEnd,
+} from "../actions";
 
 const initialState = {
   user: {
@@ -13,24 +20,24 @@ const initialState = {
 
 export const userReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(userConstants.REGISTRATION_USER_FULFILLED, (state, action) => {
+    .addCase(registrationEnd, (state, action) => {
       return {
         ...state,
         user: { ...state.user, ...action.payload.user },
         isAuthorized: true,
       };
     })
-    .addCase(userConstants.LOGIN_USER_FULFILLED, (state, action) => {
+    .addCase(loginEnd, (state, action) => {
       return {
         ...state,
         user: { ...state.user, ...action.payload.user },
         isAuthorized: true,
       };
     })
-    .addCase(userConstants.GET_USER_PENDING, (state) => {
+    .addCase(getUserStart, (state) => {
       return { ...state, isLoading: true };
     })
-    .addCase(userConstants.GET_USER_FULFILLED, (state, action) => {
+    .addCase(getUserEnd, (state, action) => {
       return {
         ...state,
         user: { ...initialState.user, ...action.payload.user },
@@ -38,10 +45,10 @@ export const userReducer = createReducer(initialState, (builder) => {
         isAuthorized: true,
       };
     })
-    .addCase(userConstants.GET_USER_ERROR, (state) => {
+    .addCase(getUserError, (state) => {
       return { ...state, isLoading: false };
     })
-    .addCase(userConstants.LOGOUT_USER_FULFILLED, (state, action) => {
+    .addCase(logoutEnd, (state, action) => {
       return initialState;
     });
 });

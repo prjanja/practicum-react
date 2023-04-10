@@ -6,8 +6,8 @@ import { orderConstants } from "../action-types";
 import { selectBurgerConstructorList } from "../selectors";
 import { AppThunk } from "../store";
 
-const createOrderStart = createAction(orderConstants.ORDER_PENDING);
-const createOrderEnd = createAction(orderConstants.ORDER_FULFILLED);
+export const createOrderStart = createAction(orderConstants.ORDER_PENDING);
+export const createOrderEnd = createAction(orderConstants.ORDER_FULFILLED);
 
 export const createOrderAction = (): AppThunk<Promise<void>> => {
   return (dispatch, getState) => {

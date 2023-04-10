@@ -10,18 +10,27 @@ import { request } from "../../utils/request";
 import { userConstants } from "../action-types";
 import { AppThunk } from "../store";
 
-const registrationStart = createAction(userConstants.REGISTRATION_USER_PENDING);
-const registrationEnd = createAction(userConstants.REGISTRATION_USER_FULFILLED);
+type UserData = {
+  email: "";
+  name: "";
+};
 
-const loginStart = createAction(userConstants.LOGIN_USER_PENDING);
-const loginEnd = createAction(userConstants.LOGIN_USER_FULFILLED);
+export const registrationStart = createAction(
+  userConstants.REGISTRATION_USER_PENDING
+);
+export const registrationEnd = createAction<{ user: UserData }>(
+  userConstants.REGISTRATION_USER_FULFILLED
+);
 
-const logoutStart = createAction(userConstants.LOGOUT_USER_PENDING);
-const logoutEnd = createAction(userConstants.LOGOUT_USER_FULFILLED);
+export const loginStart = createAction(userConstants.LOGIN_USER_PENDING);
+export const loginEnd = createAction<{ user: UserData }>(userConstants.LOGIN_USER_FULFILLED);
 
-const getUserStart = createAction(userConstants.GET_USER_PENDING);
-const getUserEnd = createAction(userConstants.GET_USER_FULFILLED);
-const getUserError = createAction(userConstants.GET_USER_ERROR);
+export const logoutStart = createAction(userConstants.LOGOUT_USER_PENDING);
+export const logoutEnd = createAction(userConstants.LOGOUT_USER_FULFILLED);
+
+export const getUserStart = createAction(userConstants.GET_USER_PENDING);
+export const getUserEnd = createAction<{ user: UserData }>(userConstants.GET_USER_FULFILLED);
+export const getUserError = createAction(userConstants.GET_USER_ERROR);
 
 export const registerAction = (user: {
   name: string;
