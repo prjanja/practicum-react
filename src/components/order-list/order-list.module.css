@@ -1,0 +1,18 @@
+.order_item {
+  border-radius: 24px;
+  background: var(--background-element);
+  cursor: pointer;
+  text-align: start;
+}
+
+.order_item_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.order_item_row_total {
+  display: flex;
+  gap: 4px;
+}

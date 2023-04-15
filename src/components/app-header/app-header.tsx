@@ -42,7 +42,7 @@ export const AppHeader = () => {
     <header className={classNames(styles.header, "mb-4", "mt-4")}>
       <div className={styles.header_left}>
         <MenuItem title={"Конструктор"} icon={BurgerIcon} path={"/"} />
-        <MenuItem title={"Лента заказов"} icon={ListIcon} path={"/orders"} />
+        <MenuItem title={"Лента заказов"} icon={ListIcon} path={"/feed"} />
       </div>
       <Logo />
       <div className={styles.header_right}>

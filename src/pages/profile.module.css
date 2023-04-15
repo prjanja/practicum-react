@@ -27,3 +27,9 @@
   display: flex;
   justify-content: space-between;
 }
+
+.outlet_container {
+  flex: 1;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+}

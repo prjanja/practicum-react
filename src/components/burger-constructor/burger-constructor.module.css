@@ -26,13 +26,6 @@
   flex-direction: column;
 }
 
-.editableItems_wrapper::-webkit-scrollbar-thumb {
-  background-color: #8585ad;
-}
-
-.editableItems_wrapper::-webkit-scrollbar {
-  width: 8px;
-}
 
 .drag_icon {
   width: 40px;

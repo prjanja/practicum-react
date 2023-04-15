@@ -13,10 +13,13 @@ import {
   LoginPage,
   NotFound404,
   OrdersPage,
+  OrdersItemPage,
   ProfileLayoutPage,
   ProfilePage,
   RegisterPage,
   ResetPasswordPage,
+  FeedPage,
+  FeedItemPage,
 } from "../../pages";
 import { ProtectedRoute } from "../protected-route";
 import {
@@ -43,7 +46,6 @@ function App() {
     return <div>Загрузка</div>;
   }
 
-  
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -51,6 +53,8 @@ function App() {
         <Routes location={background || location}>
           <Route path="/" element={<HomePage />} />
           <Route path="ingredients/:id" element={<IngredientPage />} />
+          <Route path="feed" element={<FeedPage />} />
+          <Route path="feed/:id" element={<FeedItemPage />} />
           <Route element={<ProtectedRoute isAllowed={!isUserAuthorized} />}>
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
@@ -68,6 +72,7 @@ function App() {
             <Route path="profile" element={<ProfileLayoutPage />}>
               <Route index element={<ProfilePage />} />
               <Route path="orders" element={<OrdersPage />} />
+              <Route path="orders/:id" element={<OrdersItemPage />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound404 />} />
@@ -84,6 +89,30 @@ function App() {
                   title={"Детали ингредиента"}
                 >
                   <IngredientPage />
+                </Modal>
+              }
+            />
+            <Route
+              path="feed/:id"
+              element={
+                <Modal
+                  onClose={() => {
+                    navigate(-1);
+                  }}
+                >
+                  <FeedItemPage />
+                </Modal>
+              }
+            />
+            <Route
+              path="profile/orders/:id"
+              element={
+                <Modal
+                  onClose={() => {
+                    navigate(-1);
+                  }}
+                >
+                  <OrdersItemPage />
                 </Modal>
               }
             />

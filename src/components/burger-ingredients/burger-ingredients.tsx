@@ -6,7 +6,7 @@ import styles from "./burger-ingredients.module.css";
 import { selectBurgerIngredients } from "../../services/selectors";
 import { Ingredient } from "./ingredient";
 import { IngredientTypes } from "../../utils/ingredient-types";
-import { Ingredient as TIngredient } from "../../utils/types";
+import { IngredientWithCounter } from "../../utils/types";
 import { useAppSelector } from "../../hooks";
 
 const tabs = [
@@ -16,7 +16,6 @@ const tabs = [
 ];
 
 type BoolDictionary = { [key: string]: boolean };
-type IngredientWithCounter = TIngredient & { count: number };
 
 export const BurgerIngredients = () => {
   const ingredientsList = useAppSelector(
@@ -99,7 +98,12 @@ export const BurgerIngredients = () => {
           </Tab>
         ))}
       </div>
-      <div className={styles.ingredients_group_wrapper}>
+      <div
+        className={classNames(
+          styles.ingredients_group_wrapper,
+          "custom-scrollbar"
+        )}
+      >
         {ingredientsGroups.map((ingredientsGroups) => (
           <div
             key={ingredientsGroups.type}
