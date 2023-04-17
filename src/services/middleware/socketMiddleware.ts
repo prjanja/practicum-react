@@ -37,12 +37,12 @@ export const socketMiddleware: Middleware<{}, RootState> = (store) => {
         dispatch(wsOnMessage(restParsedData));
       };
 
-      socket.onclose = (event) => {
-        dispatch(wsOnClose());
-      };
-
       if (wsSendMessage.match(type)) {
         socket.send(JSON.stringify(action.payload));
+      }
+
+      if(type === wsOnClose.type){
+        socket.close();
       }
     }
 

@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { OrderList } from "../components/order-list";
-import { useAppSelector, useSocket } from "../hooks";
-import { selectFeedOrderList } from "../services/selectors";
-import { getCookie } from "../utils/cookie";
-import { userFeedAPI } from "../utils/endpoints";
+import { OrderList } from "../../components/order-list";
+import { useAppSelector, useSocket } from "../../hooks";
+import { selectFeedOrderList } from "../../services/selectors";
+import { getCookie } from "../../utils/cookie";
+import { userFeedAPI } from "../../utils/endpoints";
 
 export const OrdersPage = () => {
   const navigate = useNavigate();

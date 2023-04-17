@@ -5,9 +5,9 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./styles.module.css";
-import { request } from "../utils/request";
-import { passwordChangeAPI } from "../utils/endpoints";
+import styles from "../styles.module.css";
+import { request } from "../../utils/request";
+import { passwordChangeAPI } from "../../utils/endpoints";
 
 export const ResetPasswordPage = () => {
   const [password, setPassword] = useState("");

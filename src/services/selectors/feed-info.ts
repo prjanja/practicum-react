@@ -43,7 +43,8 @@ export const selectFeedOrderList = (state: RootState) => {
       total: order.ingredients.reduce((acc, ingredient) => {
         return acc + ingredient.price * ingredient.count;
       }, 0),
-    }));
+    }))
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 };
 
 export const selectFeedTotal = (state: RootState) => state.feed.total;

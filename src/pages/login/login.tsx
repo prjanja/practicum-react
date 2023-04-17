@@ -5,9 +5,9 @@ import {
   Button,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./styles.module.css";
-import { loginAction } from "../services/actions";
-import { useAppDispatch } from "../hooks";
+import styles from "../styles.module.css";
+import { loginAction } from "../../services/actions";
+import { useAppDispatch } from "../../hooks";
 
 export const LoginPage = () => {
   const [form, setForm] = useState({ email: "", password: "" });

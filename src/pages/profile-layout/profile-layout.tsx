@@ -6,8 +6,8 @@ import {
 } from "react-router-dom";
 import classNames from "classnames";
 import styles from "./profile.module.css";
-import { useAppDispatch } from "../hooks";
-import { logoutAction } from "../services/actions";
+import { useAppDispatch } from "../../hooks";
+import { logoutAction } from "../../services/actions";
 
 export const ProfileLayoutPage = () => {
   const dispatch = useAppDispatch();

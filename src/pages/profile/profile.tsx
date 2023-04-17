@@ -4,9 +4,9 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./profile.module.css";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { selectUser } from "../services/selectors/user";
-import { updateUserAction } from "../services/actions";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectUser } from "../../services/selectors/user";
+import { updateUserAction } from "../../services/actions";
 
 type OwnState = {
   name: string;

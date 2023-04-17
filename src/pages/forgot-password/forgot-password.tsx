@@ -4,9 +4,9 @@ import {
   EmailInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./styles.module.css";
-import { request } from "../utils/request";
-import { passwordResetAPI } from "../utils/endpoints";
+import styles from "../styles.module.css";
+import { request } from "../../utils/request";
+import { passwordResetAPI } from "../../utils/endpoints";
 
 export const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");

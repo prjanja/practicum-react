@@ -1,15 +1,15 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import styles from "./styles.module.css";
-import { useAppSelector, useSocket } from "../hooks";
+import styles from "../styles.module.css";
+import { useAppSelector, useSocket } from "../../hooks";
 import {
   selectFeedOrderList,
   selectFeedTotal,
   selectFeedTotalToday,
-} from "../services/selectors";
-import { OrderList } from "../components/order-list";
-import { StatusTypes } from "../utils/status-types";
-import { allFeedAPI } from "../utils/endpoints";
+} from "../../services/selectors";
+import { OrderList } from "../../components/order-list";
+import { StatusTypes } from "../../utils/status-types";
+import { allFeedAPI } from "../../utils/endpoints";
 
 export const FeedPage = () => {
   const orders = useAppSelector(selectFeedOrderList);

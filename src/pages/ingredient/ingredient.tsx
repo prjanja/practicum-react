@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import { IngredientDetails } from "../components/ingredient-details";
-import { useAppSelector } from "../hooks";
-import { selectBurgerIngredients } from "../services/selectors";
-import { Ingredient } from "../utils/types";
-import styles from "./styles.module.css";
+import { IngredientDetails } from "../../components/ingredient-details";
+import { useAppSelector } from "../../hooks";
+import { selectBurgerIngredients } from "../../services/selectors";
+import { Ingredient } from "../../utils/types";
+import styles from "../styles.module.css";
 
 export const IngredientPage = () => {
   const { id } = useParams();

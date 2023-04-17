@@ -6,9 +6,9 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./styles.module.css";
-import { useAppDispatch } from "../hooks";
-import { registerAction } from "../services/actions";
+import styles from "../styles.module.css";
+import { useAppDispatch } from "../../hooks";
+import { registerAction } from "../../services/actions";
 
 export const RegisterPage = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "" });
