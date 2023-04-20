@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import classNames from "classnames";
-import styles from "../styles.module.css";
+import styles from "./feed.module.css";
 import { useAppSelector, useSocket } from "../../hooks";
 import {
   selectFeedOrderList,
