@@ -12,3 +12,18 @@ export type Ingredient = {
   image_large: string;
 };
 
+export type IngredientWithCounter = Ingredient & { count: number };
+
+export type APIOrderInfo = {
+  ingredients: Array<string>;
+  _id: string;
+  status: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+};
+export type OrderInfo = Omit<APIOrderInfo, "ingredients"> & {
+  ingredients: Array<IngredientWithCounter>;
+  total: number;
+};

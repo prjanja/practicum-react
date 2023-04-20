@@ -7,4 +7,7 @@ export { HomePage } from "./home";
 export { NotFound404 } from "./not-found";
 export { IngredientPage } from "./ingredient";
 export { OrdersPage } from "./orders";
+export { OrdersItemPage } from "./orders-item";
 export { ProfileLayoutPage } from "./profile-layout";
+export { FeedPage } from "./feed";
+export { FeedItemPage } from "./feed-item";

@@ -13,14 +13,6 @@
   overflow: auto;
 }
 
-.ingredients_group_wrapper::-webkit-scrollbar-thumb {
-  background-color: #8585ad;
-}
-
-.ingredients_group_wrapper::-webkit-scrollbar {
-  width: 8px;
-}
-
 .ingredients_list {
   overflow: auto;
   display: flex;

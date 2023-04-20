@@ -1,0 +1,30 @@
+.profile_content {
+  display: flex;
+}
+
+.menu_container {
+  max-width: 350px;
+  text-align: start;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  composes: text from global;
+  composes: text_type_main-medium from global;
+  composes: mb-20 from global;
+  composes: mr-15 from global;
+}
+.menu_item {
+  text-decoration: none;
+  composes: mt-4 from global;
+  composes: mb-4 from global;
+  cursor: pointer;
+}
+
+.outlet_container {
+  flex: 1;
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+}

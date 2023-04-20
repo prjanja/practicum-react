@@ -1,0 +1,29 @@
+
+.logo_container {
+  display: flex;
+}
+
+.logo {
+  position: relative;
+  border-radius: 50%;
+  border: solid mediumpurple;
+  background: var(--background-alt);
+  padding: 4px;
+  margin-left: -12px;
+}
+
+.logo_last > img {
+  filter: brightness(0.5);
+}
+
+.logo > img {
+  height: 50px;
+  width: 50px;
+  object-fit: cover;
+}
+
+.logo > div {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}

@@ -34,6 +34,7 @@ export const BurgerConstructor = () => {
   const isUserAuthorized = useAppSelector(selectIsUserAuthorized);
   const order = useAppSelector(selectOrderDetails) as { number: string };
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const bun = useMemo(() => {
     return ingredientsList.find((i) => i.type === IngredientTypes.BUN);
   }, [ingredientsList]);
@@ -58,8 +59,12 @@ export const BurgerConstructor = () => {
     if (!isUserAuthorized) {
       navigate("/login");
     }
+    setIsLoading(true);
 
-    return dispatch(createOrderAction()).then(() => setIsModalOpen(true));
+    return dispatch(createOrderAction()).then(() => {
+      setIsModalOpen(true);
+      setIsLoading(false);
+    });
   };
 
   const [{ canDrop }, dropRef] = useDrop<
@@ -96,7 +101,12 @@ export const BurgerConstructor = () => {
             extraClass={classNames(styles.locked_row, "ml-10")}
           />
         )}
-        <div className={styles.editableItems_wrapper}>
+        <div
+          className={classNames(
+            styles.editableItems_wrapper,
+            "custom-scrollbar"
+          )}
+        >
           {editableIngredients.map((ingredient, idx: number) => (
             <BurgerConstructorItem
               key={`${ingredient.uuid || ingredient._id}`}
@@ -125,7 +135,7 @@ export const BurgerConstructor = () => {
           size="large"
           extraClass="ml-10"
           onClick={handleCreateOrder}
-          disabled={ingredientsList.length === 0}
+          disabled={ingredientsList.length === 0 || isLoading}
         >
           Оформить заказ
         </Button>

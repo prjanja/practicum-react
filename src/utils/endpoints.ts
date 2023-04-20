@@ -9,3 +9,6 @@ export const registerAPI = `${BASE_URL}/auth/register`;
 export const logoutAPI = `${BASE_URL}/auth/logout`;
 export const tokenRefreshAPI = `${BASE_URL}/auth/token`;
 export const userAPI = `${BASE_URL}/auth/user`;
+
+export const allFeedAPI = "wss://norma.nomoreparties.space/orders/all";
+export const userFeedAPI = "wss://norma.nomoreparties.space/orders";

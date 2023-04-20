@@ -1,6 +1,7 @@
 import { createAction } from "@reduxjs/toolkit";
 import { ingredientAPI } from "../../utils/endpoints";
 import { request } from "../../utils/request";
+import { Ingredient } from "../../utils/types";
 import { ingredientsConstants } from "../action-types";
 import { AppThunk } from "../store";
 
@@ -11,10 +12,10 @@ export const hideIngredientDetails = createAction(
   ingredientsConstants.HIDE_INGREDIENT
 );
 
-const getIngredientsStart = createAction(
+export const getIngredientsStart = createAction(
   ingredientsConstants.INGREDIENTS_PENDING
 );
-const getIngredientsEnd = createAction(
+export const getIngredientsEnd = createAction<Array<Ingredient>>(
   ingredientsConstants.INGREDIENTS_FULFILLED
 );
 
