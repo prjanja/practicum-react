@@ -1,6 +1,7 @@
+const rootPath = "http://localhost:3000/practicum-react";
 describe("HomePahe modal test", () => {
   before(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(rootPath);
   });
 
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe("HomePahe modal test", () => {
 
 describe("HomePahe DND test", () => {
   before(() => {
-    cy.visit("http://localhost:3000");
+    cy.visit(rootPath);
   });
 
   beforeEach(() => {
@@ -65,7 +66,7 @@ describe("HomePahe create order test with login", () => {
   before(() => {
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
-    cy.visit("http://localhost:3000");
+    cy.visit(rootPath);
   });
 
   beforeEach(() => {
