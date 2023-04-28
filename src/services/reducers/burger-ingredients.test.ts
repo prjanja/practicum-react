@@ -1,4 +1,4 @@
-import { burgerIngredientsReducer } from "./burger-ingredients";
+import { burgerIngredientsReducer, initialState } from "./burger-ingredients";
 import { ingredientsConstants, constructorConstants } from "../action-types";
 
 const bun1 = {
@@ -45,10 +45,7 @@ const ingredient = {
   image_large: "https://code.s3.yandex.net/react/code/meat-04-large.png",
   count: 0,
 };
-const initialState = {
-  list: [],
-  currentElement: null,
-};
+
 describe("Burger ingredients reducer", () => {
   it("should return the initial state", () => {
     expect(burgerIngredientsReducer(undefined, { type: undefined })).toEqual(

@@ -16,7 +16,8 @@ export const LoginPage = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const originPath = location.state && location.state.originPath;
-  const handleLogin = () => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(loginAction(form)).then(() => {
       navigate(originPath || "/", { replace: true });
     });
@@ -29,7 +30,7 @@ export const LoginPage = () => {
   return (
     <div className={styles.page_centered_content}>
       <div className="text text_type_main-medium">Вход</div>
-      <div className="mb-20">
+      <form className="mb-20" onSubmit={handleLogin}>
         <EmailInput
           extraClass="mt-6 mb-6"
           value={form.email}
@@ -40,10 +41,10 @@ export const LoginPage = () => {
           value={form.password}
           onChange={handleChangeForm("password")}
         />
-        <Button type="primary" htmlType="button" onClick={handleLogin}>
+        <Button type="primary" htmlType="submit">
           Войти
         </Button>
-      </div>
+      </form>
       <div className="mb-4 text text_type_main-default text_color_inactive">
         Вы - новый пользователь?{" "}
         <Link to={"/register"}>Зарегистрироваться</Link>

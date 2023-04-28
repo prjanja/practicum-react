@@ -1,15 +1,5 @@
-import { userReducer } from "./user";
+import { userReducer, initialState } from "./user";
 import { userConstants } from "../action-types";
-
-const initialState = {
-  user: {
-    email: "",
-    password: "",
-    name: "",
-  },
-  isAuthorized: false,
-  isLoading: false,
-};
 
 const user = {
   email: "test@test.com",

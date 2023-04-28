@@ -20,14 +20,15 @@ export const RegisterPage = () => {
       setForm((old) => ({ ...old, [fieldName]: e.target.value }));
     };
 
-  const handleRegister = () => {
+  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(registerAction(form)).then(() => navigate("/", { replace: true }));
   };
 
   return (
     <div className={styles.page_centered_content}>
       <div className="text text_type_main-medium">Регистрация</div>
-      <div className="mb-20">
+      <form className="mb-20" onSubmit={handleRegister}>
         <Input
           extraClass="mt-6 mb-6"
           placeholder="Имя"
@@ -44,10 +45,10 @@ export const RegisterPage = () => {
           value={form.password}
           onChange={handleChangeForm("password")}
         />
-        <Button type="primary" htmlType="button" onClick={handleRegister}>
+        <Button type="primary" htmlType="submit">
           Зарегистрироваться
         </Button>
-      </div>
+      </form>
       <div className="text text_type_main-default text_color_inactive">
         Уже зарегистрированны? <Link to={"/login"}>Войти</Link>
       </div>

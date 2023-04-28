@@ -1,4 +1,8 @@
 const rootPath = "http://localhost:3000/practicum-react";
+
+const ingredientsSelector = "[class^=burger-ingredients_ingredient__]";
+const modalTitleSelector = "[class^=modal_title]";
+
 describe("HomePahe modal test", () => {
   before(() => {
     cy.visit(rootPath);
@@ -13,9 +17,9 @@ describe("HomePahe modal test", () => {
   });
 
   it("should open ingredient modal", () => {
-    cy.get("[class^=modal_title]").should("not.exist");
-    cy.get("[class^=burger-ingredients_ingredient__]").first().click();
-    cy.get("[class^=modal_title]").should("contain", "Детали ингредиента");
+    cy.get(modalTitleSelector).should("not.exist");
+    cy.get(ingredientsSelector).first().click();
+    cy.get(modalTitleSelector).should("contain", "Детали ингредиента");
     cy.get("[class^=ingredient-details_nutrients]")
       .find("div")
       .eq(2)
@@ -24,7 +28,7 @@ describe("HomePahe modal test", () => {
 
   it("should close ingredient modal", () => {
     cy.get("[class^=modal_close_icon]").first().click();
-    cy.get("[class^=modal_title]").should("not.exist");
+    cy.get(modalTitleSelector).should("not.exist");
   });
 });
 
@@ -38,8 +42,8 @@ describe("HomePahe DND test", () => {
   });
 
   it("should drag and drop ingredients", () => {
-    cy.get("[class^=burger-ingredients_ingredient__]").first().as("bun");
-    cy.get("[class^=burger-ingredients_ingredient__]").last().as("ingredient");
+    cy.get(ingredientsSelector).first().as("bun");
+    cy.get(ingredientsSelector).last().as("ingredient");
     cy.get("[class^=burger-constructor_ingredients_wrapper_]")
       .last()
       .as("target");
@@ -118,8 +122,8 @@ describe("HomePahe create order test with login", () => {
       },
     });
 
-    cy.get("[class^=burger-ingredients_ingredient__]").first().as("bun");
-    cy.get("[class^=burger-ingredients_ingredient__]").last().as("ingredient");
+    cy.get(ingredientsSelector).first().as("bun");
+    cy.get(ingredientsSelector).last().as("ingredient");
     cy.get("[class^=burger-constructor_ingredients_wrapper_]")
       .last()
       .as("target");
@@ -138,6 +142,6 @@ describe("HomePahe create order test with login", () => {
 
     cy.get("div").should("contain", "777");
     cy.get("[class^=modal_close_icon]").first().click();
-    cy.get("[class^=modal_title]").should("not.exist");
+    cy.get(modalTitleSelector).should("not.exist");
   });
 });

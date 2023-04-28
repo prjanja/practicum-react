@@ -1,12 +1,5 @@
-import { feedReducer } from "./feed-info";
+import { feedReducer, initialState } from "./feed-info";
 import { wsConstants } from "../action-types";
-
-const initialState = {
-  orders: [],
-  currentElement: null,
-  total: 0,
-  totalToday: 0,
-};
 
 describe("Feed reducer", () => {
   it("should return the initial state", () => {
