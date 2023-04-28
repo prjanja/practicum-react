@@ -8,7 +8,7 @@ import {
   registrationEnd,
 } from "../actions";
 
-const initialState = {
+export const initialState = {
   user: {
     email: "",
     password: "",

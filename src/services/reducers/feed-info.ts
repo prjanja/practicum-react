@@ -2,7 +2,7 @@ import { createReducer } from "@reduxjs/toolkit";
 import { APIOrderInfo, OrderInfo } from "../../utils/types";
 import { wsOnMessage } from "../actions";
 
-const initialState: {
+export const initialState: {
   orders: Array<APIOrderInfo>;
   total: number;
   totalToday: number;

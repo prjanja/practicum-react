@@ -15,7 +15,8 @@ export const ResetPasswordPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleChangePassword = () => {
+  const handleChangePassword = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     return request(passwordChangeAPI, {
       method: "POST",
       body: JSON.stringify({
@@ -41,7 +42,7 @@ export const ResetPasswordPage = () => {
   return (
     <div className={styles.page_centered_content}>
       <div className="text text_type_main-medium">Восстановление пароля</div>
-      <div className="mb-20">
+      <form className="mb-20" onSubmit={handleChangePassword}>
         <PasswordInput
           extraClass="mt-6 mb-6"
           placeholder="Введите новый пароль"
@@ -56,10 +57,10 @@ export const ResetPasswordPage = () => {
           value={token}
           onChange={(e) => setToken(e.target.value)}
         />
-        <Button type="primary" htmlType="button" onClick={handleChangePassword}>
+        <Button type="primary" htmlType="submit">
           Сохранить
         </Button>
-      </div>
+      </form>
       <div className="text text_type_main-default text_color_inactive">
         Вспомнили пароль? <Link to={"/login"}>Войти</Link>
       </div>

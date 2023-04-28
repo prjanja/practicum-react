@@ -5,7 +5,7 @@ import { getIngredientsEnd, ingredientAdd, ingredientDelete } from "../actions";
 
 type IngredientWithCount = Ingredient & { count?: number };
 
-const initialState: {
+export const initialState: {
   list: Array<IngredientWithCount>;
   currentElement: IngredientWithCount | null;
 } = {

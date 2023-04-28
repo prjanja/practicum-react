@@ -33,12 +33,13 @@ export const ProfilePage = () => {
       }));
     };
 
-  const handleSaveForm = () => {
+  const handleSaveForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     dispatch(updateUserAction(form));
   };
 
   return (
-    <div>
+    <form onSubmit={handleSaveForm} onReset={() => setForm(defaultFormData)}>
       <div className="mb-20">
         <Input
           extraClass="mb-6"
@@ -61,14 +62,10 @@ export const ProfilePage = () => {
       </div>
       {form.dirtyFlag && (
         <div className={styles.button_container}>
-          <Button htmlType="button" onClick={handleSaveForm}>
-            Сохранить
-          </Button>
-          <Button htmlType="button" onClick={() => setForm(defaultFormData)}>
-            Отменить
-          </Button>
+          <Button htmlType="submit">Сохранить</Button>
+          <Button htmlType="reset">Отменить</Button>
         </div>
       )}
-    </div>
+    </form>
   );
 };

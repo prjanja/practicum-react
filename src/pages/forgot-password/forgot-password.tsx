@@ -12,7 +12,8 @@ export const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
-  const handleRestore = () => {
+  const handleRestore = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     return request(passwordResetAPI, {
       method: "POST",
       body: JSON.stringify({
@@ -36,17 +37,17 @@ export const ForgotPasswordPage = () => {
   return (
     <div className={styles.page_centered_content}>
       <div className="text text_type_main-medium">Восстановление пароля</div>
-      <div className="mb-20">
+      <form className="mb-20" onSubmit={handleRestore}>
         <EmailInput
           extraClass="mt-6 mb-6"
           placeholder="Укажите e-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <Button type="primary" htmlType="button" onClick={handleRestore}>
+        <Button type="primary" htmlType="submit">
           Восстановить
         </Button>
-      </div>
+      </form>
       <div className="text text_type_main-default text_color_inactive">
         Вспомнили пароль? <Link to={"/login"}>Войти</Link>
       </div>
